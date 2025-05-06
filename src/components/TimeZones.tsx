@@ -69,12 +69,14 @@ export default function TimeZones() {
           position: relative; /* lift above ::before */
         }
         .label {
-          font-size: 1.8rem;
+          /* fluid size: min 1rem, ideal 4vw, max 1.8rem */
+          font-size: clamp(1rem, 4vw, 1.8rem);
           font-weight: 600;
           margin-bottom: 0.5rem;
         }
         .time {
-          font-size: 3.5rem;
+          /* fluid size: min 1.5rem, ideal 8vw, max 3.5rem */
+          font-size: clamp(1.5rem, 8vw, 3.5rem);
           font-family: 'DSEG7 Classic', monospace;
           line-height: 1;
         }
