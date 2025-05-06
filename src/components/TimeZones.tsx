@@ -3,17 +3,16 @@
 import { useEffect, useState } from 'react';
 
 const zones = [
-  { label: 'Eastern',  tz: 'America/New_York'     },
-  { label: 'Central',  tz: 'America/Chicago'      },
-  { label: 'Mountain', tz: 'America/Denver'       },
-  { label: 'Pacific',  tz: 'America/Los_Angeles'  },
-  { label: 'Alaska',   tz: 'America/Anchorage'    },
-  { label: 'Hawaii',   tz: 'Pacific/Honolulu'     },
+  { label: 'Eastern',  tz: 'America/New_York',     color: '#E53E3E' },
+  { label: 'Central',  tz: 'America/Chicago',      color: '#DD6B20' },
+  { label: 'Mountain', tz: 'America/Denver',       color: '#D69E2E' },
+  { label: 'Pacific',  tz: 'America/Los_Angeles',  color: '#3182CE' },
+  { label: 'Alaska',   tz: 'America/Anchorage',    color: '#805AD5' },
+  { label: 'Hawaii',   tz: 'Pacific/Honolulu',     color: '#2C7A7B' },
 ];
 
 export default function TimeZones() {
   const [now, setNow] = useState(new Date());
-
   useEffect(() => {
     const id = setInterval(() => setNow(new Date()), 1000);
     return () => clearInterval(id);
@@ -21,7 +20,8 @@ export default function TimeZones() {
 
   return (
     <div className="grid">
-      {zones.map(({ label, tz }) => {
+      {zones.map(({ label, tz, color }) => {
+        const key = label.toLowerCase();
         const time = now.toLocaleTimeString('en-US', {
           timeZone: tz,
           hour12: false,
@@ -30,34 +30,69 @@ export default function TimeZones() {
           second: '2-digit',
         });
         return (
-          <div key={tz} className="card">
+          <div key={tz} className={`card ${key}`} style={{ borderLeftColor: color }}>
             <div className="label">{label}</div>
             <div className="time">{time}</div>
           </div>
         );
       })}
+
       <style jsx>{`
         .grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-          gap: 1.5rem;
+          grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+          gap: 2rem;
           padding: 2rem;
         }
         .card {
-          background: #111;
-          color: #fff;
-          border-radius: 8px;
-          padding: 1rem;
+          position: relative;
+          background-color: #2a2a2a;
+          color: #e0e0e0;
+          border-radius: 0.75rem;
+          padding: 1.5rem;
           text-align: center;
-          box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+          box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+          border-left: 0.5rem solid;
+          overflow: hidden;
+        }
+        .card::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background-repeat: no-repeat;
+          background-position: center;
+          background-size: 80%;
+          opacity: 0.08;
+          pointer-events: none;
+        }
+        .label, .time {
+          position: relative; /* lift above ::before */
         }
         .label {
-          font-size: 1.4rem;
+          font-size: 1.8rem;
+          font-weight: 600;
           margin-bottom: 0.5rem;
         }
         .time {
-          font-size: 2.4rem;
-          font-family: 'Courier New', monospace;
+          font-size: 3.5rem;
+          font-family: 'DSEG7 Classic', monospace;
+          line-height: 1;
+        }
+
+        /* Per-zone map overlays */
+        .card.eastern::before  { background-image: url('/maps/eastern.svg'); }
+        .card.central::before  { background-image: url('/maps/central.svg'); }
+        .card.mountain::before { background-image: url('/maps/mountain.svg'); }
+        .card.pacific::before  { background-image: url('/maps/pacific.svg'); }
+        .card.alaska::before   {
+          background-image: url('/maps/alaska.svg');
+          background-size: 700% 700%;
+          background-position: center;
+        }
+        .card.hawaii::before   {
+          background-image: url('/maps/hawaii.svg');
+          background-size: 750% 750%;
+          background-position: center;
         }
       `}</style>
     </div>

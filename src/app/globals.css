@@ -1,15 +1,8 @@
-@import "tailwindcss";
+@tailwind utilities;
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -19,8 +12,42 @@
   }
 }
 
+@font-face {
+  font-family: 'DSEG7 Classic';
+  src: 
+    url('/fonts/DSEG7Classic-Regular.woff2') format('woff2'),
+    url('/fonts/DSEG7Classic-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.wrapper {
+  position: relative;
+}
+
+/* default map styling (all zones) */
+.map {
+  position: absolute;
+  inset: 0;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: contain;       
+  opacity: 0.08;
+  pointer-events: none;
+}
+
+/* Alaska needs 2× zoom */
+.wrapper.alaska .map {
+  background-size: 200% 200%;    
+}
+
+/* Hawaii needs 1.5× zoom */
+.wrapper.hawaii .map {
+  background-size: 650% 650%;    
 }
