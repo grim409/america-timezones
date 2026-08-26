@@ -1,56 +1,53 @@
-# America’s Time Zones
+# Time Across America
 
-A simple Next.js + TypeScript application that displays current time (with seconds) across major U.S. time zones: Eastern, Central, Mountain, Pacific, Alaska, and Hawaii. Times update every second.
+A live reference clock for seven major U.S. time zones. Each card shows the local time, date, and daylight-saving abbreviation and updates once per second.
 
-## Features
-- Real-time clocks with seconds
-- Big, high-contrast display suitable for projection
-- Color-coded left border per time zone
-- Responsive grid layout
-- Built with Next.js (App Router), TypeScript, React
+**[Open the live demo](https://america-timezones.vercel.app)**
 
-## Tech Stack
-- Next.js 14+ (App Router)
-- React 18+
-- TypeScript 5+
-- styled-jsx for scoped CSS
-- Vercel for deployment
+## What it shows
 
-## Getting Started
+- Eastern, Central, Mountain, Arizona, Pacific, Alaska, and Hawaii
+- Correct daylight-saving behavior from the browser's IANA time-zone database
+- A separate Arizona clock because most of the state does not observe daylight saving time
+- Local dates, which makes cross-midnight differences visible
+- Responsive cards suitable for a desktop display, wallboard, or phone
 
-### Prerequisites
-- Node.js v18+ installed
-- npm or yarn
+## Implementation
 
-### Installation
+The formatting logic is isolated in `src/lib/timeZones.ts` and tested with fixed instants, including the midnight edge case that some locale settings render as `24:00:00`. The page renders a stable loading state on the server and starts the clocks after hydration, avoiding server/client time mismatches.
+
+## Run locally
+
+Use Node.js 22.12+ on the 22.x LTS line, or Node.js 24+.
+
 ```bash
-git clone <repo-url>
-cd america-timezones
 npm install
-```
-
-### Running Locally
-```bash
 npm run dev
 ```
-Open http://localhost:3000 in your browser.
 
-### Building for Production
+Open [http://localhost:3000](http://localhost:3000).
+
+## Verify
+
 ```bash
-npm run build
-npm start
+npm run check
 ```
 
-## Deployment
-This app is optimized for Vercel. To deploy:
-1. Push your repo to GitHub (or another Git provider).
-2. Import the project on [Vercel](https://vercel.com).
-3. Vercel auto-detects Next.js and deploys.
+That command runs ESLint, TypeScript, Vitest, and a production Next.js build.
 
-## Customization
-- **Time Zones**: Edit the `zones` array in `src/components/TimeZones.tsx` to add or remove zones.
-- **Colors**: Adjust the `color` property per zone for different accent borders.
-- **Styles**: Modify the styled-jsx blocks or add to `src/app/globals.css` for global styles.
+## Stack
+
+- Next.js 16
+- React 19
+- TypeScript
+- Browser Intl API
+- Vitest
+- Vercel
+
+## Asset attribution
+
+The regional map artwork is derived from Simplemaps.com SVG data and retains its original copyright and license notices in `public/maps`.
 
 ## License
-MIT © Jason Grimberg
+
+Application code is available under the [MIT License](LICENSE). Map assets remain subject to their embedded license notices.
